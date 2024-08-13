@@ -1,6 +1,8 @@
+import { Activity } from "../activity/Activity";
 import { Contact } from "../contact/Contact";
 
 export type Customer = {
+  activities?: Array<Activity>;
   address: string | null;
   company: string | null;
   contacts?: Array<Contact>;

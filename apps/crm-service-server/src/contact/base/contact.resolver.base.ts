@@ -20,6 +20,8 @@ import { ContactFindUniqueArgs } from "./ContactFindUniqueArgs";
 import { CreateContactArgs } from "./CreateContactArgs";
 import { UpdateContactArgs } from "./UpdateContactArgs";
 import { DeleteContactArgs } from "./DeleteContactArgs";
+import { ActivityFindManyArgs } from "../../activity/base/ActivityFindManyArgs";
+import { Activity } from "../../activity/base/Activity";
 import { Customer } from "../../customer/base/Customer";
 import { ContactService } from "../contact.service";
 @graphql.Resolver(() => Contact)
@@ -112,6 +114,20 @@ export class ContactResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [Activity], { name: "activities" })
+  async findActivities(
+    @graphql.Parent() parent: Contact,
+    @graphql.Args() args: ActivityFindManyArgs
+  ): Promise<Activity[]> {
+    const results = await this.service.findActivities(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   @graphql.ResolveField(() => Customer, {

@@ -1,6 +1,8 @@
+import { ActivityCreateNestedManyWithoutCustomersInput } from "./ActivityCreateNestedManyWithoutCustomersInput";
 import { ContactCreateNestedManyWithoutCustomersInput } from "./ContactCreateNestedManyWithoutCustomersInput";
 
 export type CustomerCreateInput = {
+  activities?: ActivityCreateNestedManyWithoutCustomersInput;
   address?: string | null;
   company?: string | null;
   contacts?: ContactCreateNestedManyWithoutCustomersInput;

@@ -11,6 +11,7 @@ import {
   ReferenceField,
 } from "react-admin";
 
+import { CONTACT_TITLE_FIELD } from "../contact/ContactTitle";
 import { CUSTOMER_TITLE_FIELD } from "./CustomerTitle";
 
 export const CustomerShow = (props: ShowProps): React.ReactElement => {
@@ -26,6 +27,34 @@ export const CustomerShow = (props: ShowProps): React.ReactElement => {
         <TextField label="lastName" source="lastName" />
         <TextField label="phone" source="phone" />
         <DateField source="updatedAt" label="Updated At" />
+        <ReferenceManyField
+          reference="Activity"
+          target="customerId"
+          label="Activities"
+        >
+          <Datagrid rowClick="show">
+            <ReferenceField
+              label="Contact"
+              source="contact.id"
+              reference="Contact"
+            >
+              <TextField source={CONTACT_TITLE_FIELD} />
+            </ReferenceField>
+            <DateField source="createdAt" label="Created At" />
+            <ReferenceField
+              label="Customer"
+              source="customer.id"
+              reference="Customer"
+            >
+              <TextField source={CUSTOMER_TITLE_FIELD} />
+            </ReferenceField>
+            <TextField label="date" source="date" />
+            <TextField label="description" source="description" />
+            <TextField label="ID" source="id" />
+            <TextField label="type" source="typeField" />
+            <DateField source="updatedAt" label="Updated At" />
+          </Datagrid>
+        </ReferenceManyField>
         <ReferenceManyField
           reference="Contact"
           target="customerId"

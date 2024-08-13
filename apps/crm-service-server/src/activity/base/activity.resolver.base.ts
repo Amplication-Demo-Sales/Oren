@@ -17,7 +17,11 @@ import { Activity } from "./Activity";
 import { ActivityCountArgs } from "./ActivityCountArgs";
 import { ActivityFindManyArgs } from "./ActivityFindManyArgs";
 import { ActivityFindUniqueArgs } from "./ActivityFindUniqueArgs";
+import { CreateActivityArgs } from "./CreateActivityArgs";
+import { UpdateActivityArgs } from "./UpdateActivityArgs";
 import { DeleteActivityArgs } from "./DeleteActivityArgs";
+import { Contact } from "../../contact/base/Contact";
+import { Customer } from "../../customer/base/Customer";
 import { ActivityService } from "../activity.service";
 @graphql.Resolver(() => Activity)
 export class ActivityResolverBase {
@@ -51,6 +55,63 @@ export class ActivityResolverBase {
   }
 
   @graphql.Mutation(() => Activity)
+  async createActivity(
+    @graphql.Args() args: CreateActivityArgs
+  ): Promise<Activity> {
+    return await this.service.createActivity({
+      ...args,
+      data: {
+        ...args.data,
+
+        contact: args.data.contact
+          ? {
+              connect: args.data.contact,
+            }
+          : undefined,
+
+        customer: args.data.customer
+          ? {
+              connect: args.data.customer,
+            }
+          : undefined,
+      },
+    });
+  }
+
+  @graphql.Mutation(() => Activity)
+  async updateActivity(
+    @graphql.Args() args: UpdateActivityArgs
+  ): Promise<Activity | null> {
+    try {
+      return await this.service.updateActivity({
+        ...args,
+        data: {
+          ...args.data,
+
+          contact: args.data.contact
+            ? {
+                connect: args.data.contact,
+              }
+            : undefined,
+
+          customer: args.data.customer
+            ? {
+                connect: args.data.customer,
+              }
+            : undefined,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @graphql.Mutation(() => Activity)
   async deleteActivity(
     @graphql.Args() args: DeleteActivityArgs
   ): Promise<Activity | null> {
@@ -64,5 +125,35 @@ export class ActivityResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => Contact, {
+    nullable: true,
+    name: "contact",
+  })
+  async getContact(
+    @graphql.Parent() parent: Activity
+  ): Promise<Contact | null> {
+    const result = await this.service.getContact(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
+  }
+
+  @graphql.ResolveField(() => Customer, {
+    nullable: true,
+    name: "customer",
+  })
+  async getCustomer(
+    @graphql.Parent() parent: Activity
+  ): Promise<Customer | null> {
+    const result = await this.service.getCustomer(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

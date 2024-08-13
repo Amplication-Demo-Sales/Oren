@@ -9,10 +9,6 @@ import { OpportunityList } from "./opportunity/OpportunityList";
 import { OpportunityCreate } from "./opportunity/OpportunityCreate";
 import { OpportunityEdit } from "./opportunity/OpportunityEdit";
 import { OpportunityShow } from "./opportunity/OpportunityShow";
-import { ActivityList } from "./activity/ActivityList";
-import { ActivityCreate } from "./activity/ActivityCreate";
-import { ActivityEdit } from "./activity/ActivityEdit";
-import { ActivityShow } from "./activity/ActivityShow";
 import { CustomerList } from "./customer/CustomerList";
 import { CustomerCreate } from "./customer/CustomerCreate";
 import { CustomerEdit } from "./customer/CustomerEdit";
@@ -25,6 +21,10 @@ import { LeadList } from "./lead/LeadList";
 import { LeadCreate } from "./lead/LeadCreate";
 import { LeadEdit } from "./lead/LeadEdit";
 import { LeadShow } from "./lead/LeadShow";
+import { ActivityList } from "./activity/ActivityList";
+import { ActivityCreate } from "./activity/ActivityCreate";
+import { ActivityEdit } from "./activity/ActivityEdit";
+import { ActivityShow } from "./activity/ActivityShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -59,13 +59,6 @@ const App = (): React.ReactElement => {
           show={OpportunityShow}
         />
         <Resource
-          name="Activity"
-          list={ActivityList}
-          edit={ActivityEdit}
-          create={ActivityCreate}
-          show={ActivityShow}
-        />
-        <Resource
           name="Customer"
           list={CustomerList}
           edit={CustomerEdit}
@@ -85,6 +78,13 @@ const App = (): React.ReactElement => {
           edit={LeadEdit}
           create={LeadCreate}
           show={LeadShow}
+        />
+        <Resource
+          name="Activity"
+          list={ActivityList}
+          edit={ActivityEdit}
+          create={ActivityCreate}
+          show={ActivityShow}
         />
       </Admin>
     </div>

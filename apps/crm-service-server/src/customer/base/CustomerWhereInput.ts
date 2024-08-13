@@ -11,14 +11,27 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { ActivityListRelationFilter } from "../../activity/base/ActivityListRelationFilter";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { IsOptional, ValidateNested } from "class-validator";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { ContactListRelationFilter } from "../../contact/base/ContactListRelationFilter";
 import { StringFilter } from "../../util/StringFilter";
 
 @InputType()
 class CustomerWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => ActivityListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => ActivityListRelationFilter)
+  @IsOptional()
+  @Field(() => ActivityListRelationFilter, {
+    nullable: true,
+  })
+  activities?: ActivityListRelationFilter;
+
   @ApiProperty({
     required: false,
     type: StringNullableFilter,

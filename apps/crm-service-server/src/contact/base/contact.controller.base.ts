@@ -22,6 +22,9 @@ import { Contact } from "./Contact";
 import { ContactFindManyArgs } from "./ContactFindManyArgs";
 import { ContactWhereUniqueInput } from "./ContactWhereUniqueInput";
 import { ContactUpdateInput } from "./ContactUpdateInput";
+import { ActivityFindManyArgs } from "../../activity/base/ActivityFindManyArgs";
+import { Activity } from "../../activity/base/Activity";
+import { ActivityWhereUniqueInput } from "../../activity/base/ActivityWhereUniqueInput";
 
 export class ContactControllerBase {
   constructor(protected readonly service: ContactService) {}
@@ -193,5 +196,95 @@ export class ContactControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/activities")
+  @ApiNestedQuery(ActivityFindManyArgs)
+  async findActivities(
+    @common.Req() request: Request,
+    @common.Param() params: ContactWhereUniqueInput
+  ): Promise<Activity[]> {
+    const query = plainToClass(ActivityFindManyArgs, request.query);
+    const results = await this.service.findActivities(params.id, {
+      ...query,
+      select: {
+        contact: {
+          select: {
+            id: true,
+          },
+        },
+
+        createdAt: true,
+
+        customer: {
+          select: {
+            id: true,
+          },
+        },
+
+        date: true,
+        description: true,
+        id: true,
+        typeField: true,
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/activities")
+  async connectActivities(
+    @common.Param() params: ContactWhereUniqueInput,
+    @common.Body() body: ActivityWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      activities: {
+        connect: body,
+      },
+    };
+    await this.service.updateContact({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/activities")
+  async updateActivities(
+    @common.Param() params: ContactWhereUniqueInput,
+    @common.Body() body: ActivityWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      activities: {
+        set: body,
+      },
+    };
+    await this.service.updateContact({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/activities")
+  async disconnectActivities(
+    @common.Param() params: ContactWhereUniqueInput,
+    @common.Body() body: ActivityWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      activities: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateContact({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

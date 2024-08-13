@@ -11,7 +11,7 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
+import { ActivityUpdateManyWithoutContactsInput } from "./ActivityUpdateManyWithoutContactsInput";
 import {
   ValidateNested,
   IsOptional,
@@ -19,9 +19,22 @@ import {
   MaxLength,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
 
 @InputType()
 class ContactUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: () => ActivityUpdateManyWithoutContactsInput,
+  })
+  @ValidateNested()
+  @Type(() => ActivityUpdateManyWithoutContactsInput)
+  @IsOptional()
+  @Field(() => ActivityUpdateManyWithoutContactsInput, {
+    nullable: true,
+  })
+  activities?: ActivityUpdateManyWithoutContactsInput;
+
   @ApiProperty({
     required: false,
     type: () => CustomerWhereUniqueInput,

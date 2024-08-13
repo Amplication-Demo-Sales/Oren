@@ -11,12 +11,62 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringFilter } from "../../util/StringFilter";
+import { ContactWhereUniqueInput } from "../../contact/base/ContactWhereUniqueInput";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
+import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
+import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { StringFilter } from "../../util/StringFilter";
 
 @InputType()
 class ActivityWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => ContactWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => ContactWhereUniqueInput)
+  @IsOptional()
+  @Field(() => ContactWhereUniqueInput, {
+    nullable: true,
+  })
+  contact?: ContactWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CustomerWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => CustomerWhereUniqueInput)
+  @IsOptional()
+  @Field(() => CustomerWhereUniqueInput, {
+    nullable: true,
+  })
+  customer?: CustomerWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: DateTimeNullableFilter,
+  })
+  @Type(() => DateTimeNullableFilter)
+  @IsOptional()
+  @Field(() => DateTimeNullableFilter, {
+    nullable: true,
+  })
+  date?: DateTimeNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  description?: StringNullableFilter;
+
   @ApiProperty({
     required: false,
     type: StringFilter,
@@ -27,6 +77,17 @@ class ActivityWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  typeField?: StringNullableFilter;
 }
 
 export { ActivityWhereInput as ActivityWhereInput };

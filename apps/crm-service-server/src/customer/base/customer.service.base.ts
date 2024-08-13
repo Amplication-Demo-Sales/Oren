@@ -10,9 +10,11 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
+
 import {
   Prisma,
   Customer as PrismaCustomer,
+  Activity as PrismaActivity,
   Contact as PrismaContact,
 } from "@prisma/client";
 
@@ -47,6 +49,17 @@ export class CustomerServiceBase {
     args: Prisma.CustomerDeleteArgs
   ): Promise<PrismaCustomer> {
     return this.prisma.customer.delete(args);
+  }
+
+  async findActivities(
+    parentId: string,
+    args: Prisma.ActivityFindManyArgs
+  ): Promise<PrismaActivity[]> {
+    return this.prisma.customer
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .activities(args);
   }
 
   async findContacts(

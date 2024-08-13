@@ -31,10 +31,40 @@ export class ActivityControllerBase {
     @common.Body() data: ActivityCreateInput
   ): Promise<Activity> {
     return await this.service.createActivity({
-      data: data,
+      data: {
+        ...data,
+
+        contact: data.contact
+          ? {
+              connect: data.contact,
+            }
+          : undefined,
+
+        customer: data.customer
+          ? {
+              connect: data.customer,
+            }
+          : undefined,
+      },
       select: {
+        contact: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
+
+        customer: {
+          select: {
+            id: true,
+          },
+        },
+
+        date: true,
+        description: true,
         id: true,
+        typeField: true,
         updatedAt: true,
       },
     });
@@ -48,8 +78,24 @@ export class ActivityControllerBase {
     return this.service.activities({
       ...args,
       select: {
+        contact: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
+
+        customer: {
+          select: {
+            id: true,
+          },
+        },
+
+        date: true,
+        description: true,
         id: true,
+        typeField: true,
         updatedAt: true,
       },
     });
@@ -64,8 +110,24 @@ export class ActivityControllerBase {
     const result = await this.service.activity({
       where: params,
       select: {
+        contact: {
+          select: {
+            id: true,
+          },
+        },
+
         createdAt: true,
+
+        customer: {
+          select: {
+            id: true,
+          },
+        },
+
+        date: true,
+        description: true,
         id: true,
+        typeField: true,
         updatedAt: true,
       },
     });
@@ -87,10 +149,40 @@ export class ActivityControllerBase {
     try {
       return await this.service.updateActivity({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          contact: data.contact
+            ? {
+                connect: data.contact,
+              }
+            : undefined,
+
+          customer: data.customer
+            ? {
+                connect: data.customer,
+              }
+            : undefined,
+        },
         select: {
+          contact: {
+            select: {
+              id: true,
+            },
+          },
+
           createdAt: true,
+
+          customer: {
+            select: {
+              id: true,
+            },
+          },
+
+          date: true,
+          description: true,
           id: true,
+          typeField: true,
           updatedAt: true,
         },
       });
@@ -114,8 +206,24 @@ export class ActivityControllerBase {
       return await this.service.deleteActivity({
         where: params,
         select: {
+          contact: {
+            select: {
+              id: true,
+            },
+          },
+
           createdAt: true,
+
+          customer: {
+            select: {
+              id: true,
+            },
+          },
+
+          date: true,
+          description: true,
           id: true,
+          typeField: true,
           updatedAt: true,
         },
       });

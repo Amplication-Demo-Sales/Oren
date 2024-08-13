@@ -1,1 +1,10 @@
-export type ActivityCreateInput = {};
+import { ContactWhereUniqueInput } from "../contact/ContactWhereUniqueInput";
+import { CustomerWhereUniqueInput } from "../customer/CustomerWhereUniqueInput";
+
+export type ActivityCreateInput = {
+  contact?: ContactWhereUniqueInput | null;
+  customer?: CustomerWhereUniqueInput | null;
+  date?: Date | null;
+  description?: string | null;
+  typeField?: string | null;
+};

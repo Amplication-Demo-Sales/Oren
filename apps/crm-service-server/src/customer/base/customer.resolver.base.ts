@@ -20,6 +20,8 @@ import { CustomerFindUniqueArgs } from "./CustomerFindUniqueArgs";
 import { CreateCustomerArgs } from "./CreateCustomerArgs";
 import { UpdateCustomerArgs } from "./UpdateCustomerArgs";
 import { DeleteCustomerArgs } from "./DeleteCustomerArgs";
+import { ActivityFindManyArgs } from "../../activity/base/ActivityFindManyArgs";
+import { Activity } from "../../activity/base/Activity";
 import { ContactFindManyArgs } from "../../contact/base/ContactFindManyArgs";
 import { Contact } from "../../contact/base/Contact";
 import { CustomerService } from "../customer.service";
@@ -97,6 +99,20 @@ export class CustomerResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [Activity], { name: "activities" })
+  async findActivities(
+    @graphql.Parent() parent: Customer,
+    @graphql.Args() args: ActivityFindManyArgs
+  ): Promise<Activity[]> {
+    const results = await this.service.findActivities(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   @graphql.ResolveField(() => [Contact], { name: "contacts" })

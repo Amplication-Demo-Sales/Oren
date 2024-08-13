@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { OpportunityModule } from "./opportunity/opportunity.module";
-import { ActivityModule } from "./activity/activity.module";
 import { CustomerModule } from "./customer/customer.module";
 import { ContactModule } from "./contact/contact.module";
 import { LeadModule } from "./lead/lead.module";
+import { ActivityModule } from "./activity/activity.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -19,10 +19,10 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
   imports: [
     KafkaModule,
     OpportunityModule,
-    ActivityModule,
     CustomerModule,
     ContactModule,
     LeadModule,
+    ActivityModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

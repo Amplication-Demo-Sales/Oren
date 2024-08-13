@@ -9,5 +9,79 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-class ActivityCreateInput {}
+import { InputType, Field } from "@nestjs/graphql";
+import { ApiProperty } from "@nestjs/swagger";
+import { ContactWhereUniqueInput } from "../../contact/base/ContactWhereUniqueInput";
+import {
+  ValidateNested,
+  IsOptional,
+  IsDate,
+  IsString,
+  MaxLength,
+} from "class-validator";
+import { Type } from "class-transformer";
+import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
+
+@InputType()
+class ActivityCreateInput {
+  @ApiProperty({
+    required: false,
+    type: () => ContactWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => ContactWhereUniqueInput)
+  @IsOptional()
+  @Field(() => ContactWhereUniqueInput, {
+    nullable: true,
+  })
+  contact?: ContactWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => CustomerWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => CustomerWhereUniqueInput)
+  @IsOptional()
+  @Field(() => CustomerWhereUniqueInput, {
+    nullable: true,
+  })
+  customer?: CustomerWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  date?: Date | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  description?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @MaxLength(1000)
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  typeField?: string | null;
+}
+
 export { ActivityCreateInput as ActivityCreateInput };
