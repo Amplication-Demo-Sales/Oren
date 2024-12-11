@@ -25,6 +25,18 @@ import { ActivityList } from "./activity/ActivityList";
 import { ActivityCreate } from "./activity/ActivityCreate";
 import { ActivityEdit } from "./activity/ActivityEdit";
 import { ActivityShow } from "./activity/ActivityShow";
+import { OrderList } from "./order/OrderList";
+import { OrderCreate } from "./order/OrderCreate";
+import { OrderEdit } from "./order/OrderEdit";
+import { OrderShow } from "./order/OrderShow";
+import { InvoiceList } from "./invoice/InvoiceList";
+import { InvoiceCreate } from "./invoice/InvoiceCreate";
+import { InvoiceEdit } from "./invoice/InvoiceEdit";
+import { InvoiceShow } from "./invoice/InvoiceShow";
+import { ProductList } from "./product/ProductList";
+import { ProductCreate } from "./product/ProductCreate";
+import { ProductEdit } from "./product/ProductEdit";
+import { ProductShow } from "./product/ProductShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -85,6 +97,27 @@ const App = (): React.ReactElement => {
           edit={ActivityEdit}
           create={ActivityCreate}
           show={ActivityShow}
+        />
+        <Resource
+          name="Order"
+          list={OrderList}
+          edit={OrderEdit}
+          create={OrderCreate}
+          show={OrderShow}
+        />
+        <Resource
+          name="Invoice"
+          list={InvoiceList}
+          edit={InvoiceEdit}
+          create={InvoiceCreate}
+          show={InvoiceShow}
+        />
+        <Resource
+          name="Product"
+          list={ProductList}
+          edit={ProductEdit}
+          create={ProductCreate}
+          show={ProductShow}
         />
       </Admin>
     </div>
